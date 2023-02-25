@@ -1,5 +1,4 @@
 ---
-
 - name: Install packes
   apt: 
     name: "{{ item }}"
@@ -22,28 +21,17 @@
 - name: Update repository cache
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
-- name: Install docker 
+- name: Install containerd.io
   apt:
     name: containerd.io
     state: present
 
-- name: Enable service keepalived
-  ansible.builtin.service:
-    name: docker
+- name: Enable containerd
+  service:
+    name: containerd
     enabled: yes
 
-- name: Restart service keepalived
-  ansible.builtin.service:
-    name: docker
+- name: Restart containerd
+  service:
+    name: containerd
     state: restarted
-
-- name: Ensure docker group exists
-  ansible.builtin.group:
-    name: docker
-    state: present
-
-- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
-  ansible.builtin.user:
-    name: rasmus
-    groups: docker 
-    append: yes
