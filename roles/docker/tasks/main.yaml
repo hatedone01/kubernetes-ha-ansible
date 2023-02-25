@@ -1,0 +1,55 @@
+---
+
+- name: Install packes
+  apt: 
+    name: "{{ item }}"
+  with_items:
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Update repository cache
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+
+- name: Install docker 
+  apt:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+
+- name: Enable service keepalived
+  ansible.builtin.service:
+    name: docker
+    enabled: yes
+
+- name: Restart service keepalived
+  ansible.builtin.service:
+    name: docker
+    state: restarted
+
+- name: Ensure docker group exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
+  ansible.builtin.user:
+    name: rasmus
+    groups: docker 
+    append: yes

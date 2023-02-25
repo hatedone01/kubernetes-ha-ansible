@@ -1,0 +1,15 @@
+#- name: Haproxy
+#  hosts: haproxy
+#  become: yes
+#  vars:
+#    - VIP: 10.200.50.200
+#    - KEEP_PASSWD: Password1!
+#  roles:
+#    - keepalive
+#    - haproxy
+
+- name: Kubernetes master 
+  hosts: kube-master
+  become: yes
+  roles:
+    - docker

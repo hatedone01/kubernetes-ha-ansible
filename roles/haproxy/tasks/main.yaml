@@ -1,0 +1,23 @@
+- name: Install HAproxy
+  apt:
+    name: haproxy
+    state: present
+    update_cache: yes
+
+- name: Enable HAproxy  
+  service:
+    name: haproxy
+    enabled: yes
+
+- name: Config haproxy
+  template:
+    src: ../templates/haproxy.cfg
+    dest: /etc/haproxy/haproxy,cfg
+    owner: root
+    group: root
+
+- name: Enable HAproxy
+  service:
+    name: haproxy
+    state: reloaded
+
