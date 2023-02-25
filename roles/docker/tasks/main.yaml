@@ -24,14 +24,8 @@
 
 - name: Install docker 
   apt:
-    name: "{{item}}"
+    name: containerd.io
     state: present
-  with_items:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
-    - docker-buildx-plugin
-    - docker-compose-plugin
 
 - name: Enable service keepalived
   ansible.builtin.service:
