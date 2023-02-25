@@ -1,14 +1,4 @@
 ---
-#- name: Generate password
-#  shell: "tr -dc_[:alnum:] < /dev/urandom | head -c${1:-20}"
-#  register: new_pass
-#  run_once: true
-
-#- name: Set Password as fact
-#  set_fact:
-#    keep_pass: "{{ lookup('ansible.builtin.password', 'credentials/' + client + '/' + tier + '/' + role + '/mysqlpassword length=15') }}"
-#  run_once: true
-
 - name: Setting host facts using complex arguments
   ansible.builtin.set_fact:
     keep_pass: "{{ lookup('ansible.builtin.password', '/tmp/passwordfile chars=ascii_letters') }}"
