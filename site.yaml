@@ -12,4 +12,4 @@
   hosts: kube-master
   become: yes
   roles:
-    - docker
+    - containerd
