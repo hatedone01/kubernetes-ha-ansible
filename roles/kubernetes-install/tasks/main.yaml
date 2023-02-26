@@ -59,6 +59,11 @@
     - apt-transport-https
     - ca-certificates
 
+- name: Create kubernetes-archive-keyring.gpg 
+  file:
+    path: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+    state: touch
+
 - name: Add Kubernetes gpg
   get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
