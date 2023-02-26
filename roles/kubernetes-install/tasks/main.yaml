@@ -59,17 +59,16 @@
     - apt-transport-https
     - ca-certificates
 
-- name: Create kubernetes-archive-keyring.gpg 
-  become: true
+- name: Create kubernetes repo file
   file:
-    path: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-    state: touch
+  path: "/etc/apt/sources.list.d/kubernetes.list"
+  state: "touch"
 
-- name: Add Kubernetes gpg
-  become: true
-  get_url:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-    dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+- name: Add kubernetes Source
+  blockinfile:
+    path: "/etc/apt/sources.list.d/kubernetes.list"
+    block: |
+      deb https://apt.kubernetes.io/ kubernetes-xenial main
 
 - name: Add kubernetes repo
   apt_repository:
