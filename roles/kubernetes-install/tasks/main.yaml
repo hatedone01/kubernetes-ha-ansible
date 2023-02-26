@@ -61,12 +61,12 @@
 
 - name: Create kubernetes repo file
   file:
-  path: "/etc/apt/sources.list.d/kubernetes.list"
+  path: /etc/apt/sources.list.d/kubernetes.list
   state: touch
 
 - name: Add kubernetes Source
   blockinfile:
-    path: "/etc/apt/sources.list.d/kubernetes.list"
+    path: /etc/apt/sources.list.d/kubernetes.list
     block: |
       deb https://apt.kubernetes.io/ kubernetes-xenial main
 
