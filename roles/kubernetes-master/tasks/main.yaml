@@ -1,15 +1,24 @@
 ---
-- name: Create containerd.conf 
-  file:
+#- name: Create containerd.conf 
+#  file:
+#    path: /etc/modules-load.d/containerd.conf
+#    state: touch
+
+- name: Add a line to a file if the file does not exist, without passing regexp
+  ansible.builtin.lineinfile:
     path: /etc/modules-load.d/containerd.conf
-    state: touch
-    
-- name: config /etc/modules-load.d/containerd.conf
-  command: | 
-    cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
-    overlay
-    br_netfilter
-    EOF
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - overlay
+    - br_netfilter
+
+#- name: config /etc/modules-load.d/containerd.conf
+#  command: | 
+#    cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+#    overlay
+#    br_netfilter
+#    EOF
 
 - name: modprod
   modprobe:
