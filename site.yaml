@@ -16,4 +16,5 @@
     - POD_CIDER: 172.16.0.0/16
   roles:
     - containerd
-    - kubernetes-master
+    - kubernetes-install
+    - kubernetes-master-boot
