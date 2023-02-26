@@ -9,7 +9,7 @@
 #    - haproxy
 
 - name: Kubernetes master 
-  hosts: kube-master[0]
+  hosts: kube-master
   become: yes
   vars:
     - VIP: 10.200.50.200
