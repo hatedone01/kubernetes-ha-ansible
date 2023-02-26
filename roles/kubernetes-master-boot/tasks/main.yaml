@@ -1,7 +1,6 @@
 ---
 - name: Bootstrap kubernetes cluster
   command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
-  delegate_to: kubernetes-master[0]
 
 #- name: Get Kubernetes config
 #  command: "{{ item }}"
