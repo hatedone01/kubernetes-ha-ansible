@@ -9,7 +9,11 @@
 #    - haproxy
 
 - name: Kubernetes master 
-  hosts: kube-master
+  hosts: kube-master[0]
   become: yes
+  vars:
+    - VIP: 10.200.50.200
+    - POD_CIDER: 172.16.0.0/16
   roles:
     - containerd
+    - kubernetes-master
