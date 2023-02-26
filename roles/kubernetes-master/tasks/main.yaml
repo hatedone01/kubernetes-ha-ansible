@@ -91,7 +91,7 @@
 
 - name: "run on that_one_host host"
   command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
-  when: inventory_hostname == kube-master[0]
+  when: ansible_hostname == kube-master[0]
 
 #- name: Include cinder-compute role
 #  include_role:
