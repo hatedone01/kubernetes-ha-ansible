@@ -1,4 +1,8 @@
 ---
+- name: Create containerd.conf 
+  file:
+    path: /etc/modules-load.d/containerd.conf
+    
 - name: config /etc/modules-load.d/containerd.conf
   command: | 
     cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
