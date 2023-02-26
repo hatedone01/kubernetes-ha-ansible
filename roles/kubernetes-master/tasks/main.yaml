@@ -93,5 +93,5 @@
   include_role:
     name: kubernetes-master-boot
     apply:
-      delegate_to: "{{ item }}"
-  with_items: "{{ groups['kubernetes-master[0]'] }}"
+      delegate_to: kubernetes-master[0] #"{{ item }}"
+#  with_items: "{{ groups['kubernetes-master[0]'] }}"
