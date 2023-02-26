@@ -62,7 +62,7 @@
 - name: Create kubernetes repo file
   file:
   path: "/etc/apt/sources.list.d/kubernetes.list"
-  state: "touch"
+  state: touch
 
 - name: Add kubernetes Source
   blockinfile:
