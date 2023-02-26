@@ -4,7 +4,7 @@
 #    path: /etc/modules-load.d/containerd.conf
 #    state: touch
 
-- name: Add a line to a file if the file does not exist, without passing regexp
+- name: add line to containerd.conf
   ansible.builtin.lineinfile:
     path: /etc/modules-load.d/containerd.conf
     line: "{{ item }}"
