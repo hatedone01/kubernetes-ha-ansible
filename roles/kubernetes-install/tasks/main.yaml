@@ -60,6 +60,7 @@
     - ca-certificates
 
 - name: Create kubernetes-archive-keyring.gpg 
+  become: true
   file:
     path: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
     state: touch
