@@ -1,8 +1,8 @@
 ---
-#- name: Create containerd.conf 
-#  file:
-#    path: /etc/modules-load.d/containerd.conf
-#    state: touch
+- name: Create containerd.conf 
+  file:
+    path: /etc/modules-load.d/containerd.conf
+    state: touch
 
 - name: add line to containerd.conf
   ansible.builtin.lineinfile:
