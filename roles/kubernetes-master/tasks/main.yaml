@@ -35,14 +35,6 @@
     - net.ipv4.ip_forward                 = 1
     - net.bridge.bridge-nf-call-ip6tables = 1
 
-#- name: config /etc/sysctl.d/99-kubernetes-cri.conf
-#  command: | 
-#    cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
-#    net.bridge.bridge-nf-call-iptables  = 1
-#    net.ipv4.ip_forward                 = 1
-#    net.bridge.bridge-nf-call-ip6tables = 1
-#    EOF
-
 - name: sysctl
   become: true
   command: sysctl --system
@@ -97,20 +89,9 @@
     - kubeadm 
     - kubectl
 
-- name: Bootstrap kubernetes cluster
-  command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
-  delegate_to: kubernetes-master[0]
-#  register: kubernetes-token
-#- debug:
-#    msg: '{{ bob.stdout_lines | select("search", "systemd") | list }}'
-
-- name: Get Kubernetes config
-  command: "{{ item }}"
-  with_items:
-    - mkdir -p $HOME/.kube
-    - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-    - sudo chown $(id -u):$(id -g) $HOME/.kube/config
-  delegate_to: kubernetes-master[0]
-
-- name: Get kubernetes token
-  command: 
+- name: Include cinder-compute role
+  include_role:
+    name: kubernetes-master-boot
+    apply:
+      delegate_to: "{{ item }}"
+  with_items: "{{ groups['kubernetes-master[0]'] }}"
