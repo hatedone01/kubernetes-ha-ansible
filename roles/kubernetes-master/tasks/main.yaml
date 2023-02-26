@@ -2,6 +2,7 @@
 - name: Create containerd.conf 
   file:
     path: /etc/modules-load.d/containerd.conf
+    state: touch
     
 - name: config /etc/modules-load.d/containerd.conf
   command: | 
