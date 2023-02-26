@@ -59,6 +59,10 @@
     - apt-transport-https
     - ca-certificates
 
+- name: install and configure dependencies
+  shell: |
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add 
+
 - name: Create kubernetes repo file
   file:
     path: /etc/apt/sources.list.d/kubernetes.list
