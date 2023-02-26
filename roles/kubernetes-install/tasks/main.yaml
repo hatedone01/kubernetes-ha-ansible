@@ -65,6 +65,7 @@
     state: touch
 
 - name: Add Kubernetes gpg
+  become: true
   get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
