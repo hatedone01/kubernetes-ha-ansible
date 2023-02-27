@@ -59,20 +59,16 @@
     - apt-transport-https
     - ca-certificates
 
-- name: install and configure dependencies
-  command: |
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+- name: add Kubernetes apt-key for APT repository
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
 
-- name: Create kubernetes repo file
-  file:
-    path: /etc/apt/sources.list.d/kubernetes.list
-    state: touch
-
-- name: Add kubernetes Source
-  blockinfile:
-    path: /etc/apt/sources.list.d/kubernetes.list
-    block: |
-      deb https://apt.kubernetes.io/ kubernetes-xenial main
+- name: add Kubernetes APT repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: 'kubernetes'
 
 - name: Install Kubernetes packes
   apt:
