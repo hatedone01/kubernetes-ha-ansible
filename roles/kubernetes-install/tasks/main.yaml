@@ -60,7 +60,7 @@
     - ca-certificates
 
 - name: install and configure dependencies
-  shell: |
+  command: |
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 - name: Create kubernetes repo file
