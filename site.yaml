@@ -22,4 +22,4 @@
     - VIP: 10.200.80.200
     - POD_CIDER: 172.16.0.0/16
   roles:
-    - kubernetes-master-boot
+    - kubernetes-master
