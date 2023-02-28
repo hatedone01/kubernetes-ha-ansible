@@ -11,10 +11,15 @@
 - name: Kubernetes master 
   hosts: kube-master
   become: yes
+  roles:
+    - containerd
+    - kubernetes-install
+
+- name: Kubernetes master boot
+  hosts: kube-master
+  become: yes
   vars:
     - VIP: 10.200.80.200
     - POD_CIDER: 172.16.0.0/16
   roles:
-    - containerd
-    - kubernetes-install
     - kubernetes-master-boot
