@@ -26,13 +26,34 @@
     name: containerd.io
     state: present
 
-- name: Creates directory
+- name: Create containerd.conf 
   file:
-    path: /etc/containerd
+    path: /etc/containerd 
     state: directory
 
-- name: config containerd
+- name: Create containerd config
   command: containerd config default | sudo tee /etc/containerd/config.toml
+
+- name: Create containerd.conf 
+  file:
+    path: /etc/modules-load.d/containerd.conf
+    state: touch
+
+- name: add line to containerd.conf
+  ansible.builtin.lineinfile:
+    path: /etc/modules-load.d/containerd.conf
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - overlay
+    - br_netfilter
+
+- name: modprod
+  modprobe:
+    name: "{{ item }}"
+  with_items: 
+    - overlay
+    - br_netfilter
 
 - name: Enable containerd
   service:
