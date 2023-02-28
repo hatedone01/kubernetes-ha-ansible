@@ -1,9 +1,14 @@
 ---
 - name: "run on that_one_host host"
-  command: sudo kubeadm init --pod-network-cidr={{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
-  delegate_to: "{{ item }}" 
+  command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
+  delegate_to: "{{ groups.kube_master[0] }}" 
   run_once: true
-  loop: "{{ groups['kube-master'][0] }}"
+
+#- name: "run on that_one_host host"
+#  command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
+#  delegate_to: "{{ item }}" 
+#  run_once: true
+#  loop: "{{ groups['kube-master'][0] }}"
 
 #- name: Include cinder-compute role
 #  include_role:
