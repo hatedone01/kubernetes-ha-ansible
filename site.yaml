@@ -11,15 +11,18 @@
 - name: Kubernetes master 
   hosts: kube_master
   become: yes
+  vars:
+    - OS: Debian_11
+    - CRIO_VERSION: 1.23
   roles:
-    - containerd
+#    - containerd
     - kubernetes-install
 
 - name: Kubernetes master boot
   hosts: kube_master
   become: yes
   vars:
-    - VIP: 10.200.80.200
+    - VIP: 10.200.110.200
     - POD_CIDER: 172.16.0.0/16
   roles:
     - kubernetes-master

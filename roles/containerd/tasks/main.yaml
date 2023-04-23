@@ -59,6 +59,7 @@
   with_items: 
     - overlay
     - br_netfilter
+    - cgroup-tools
 
 - name: Enable containerd
   service:
