@@ -21,22 +21,22 @@
     - modprobe br_netfilter
     - sudo sysctl --system
 
-- name: Create /etc/apt/sources.list.d/devel\:kubic\:libcontainers\:stable.list 
-  ansible.builtin.copy: 
-    dest: /etc/apt/sources.list.d/devel\:kubic\:libcontainers\:stable.list 
+- name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
     content: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{OS}}/ /
 
-- name: Create /etc/apt/sources.list.d/devel\:kubic\:libcontainers\:stable\:cri-o\:1.23.list 
-  ansible.builtin.copy: 
-    dest: /etc/apt/sources.list.d/devel\:kubic\:libcontainers\:stable\:cri-o\:1.23.list 
+- name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{OS}}.list
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{OS}}.list
     content: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{CRIO_VERSION}}/{{OS}}/ /
 
-- name: CRI-O add pgp
+- name: CRI-O add pgp1
   ansible.builtin.apt_key:
     url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{CRIO_VERSION}}/{{OS}}/Release.key
     state: present
 
-- name: CRI-O add pgp
+- name: CRI-O add pgp2
   ansible.builtin.apt_key:
     url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{OS}}/Release.key
     state: present
@@ -47,22 +47,24 @@
 
 - name: Install CRI-O
   ansible.builtin.apt:
-    name: "{{items}}"
+    name: "{{item}}"
     state: present
-    with_items:
-      - cri-o 
-      - cri-o-runc
-      - cri-tools
+  with_items:
+    - cri-o 
+    - cri-o-runc
+    - cri-tools
 
 - name: Start cri-o
   ansible.builtin.service:
-    name: cri-o
+    name: crio
+    daemon_reload: true
     state: started
 
 - name: Enable cri-o
   ansible.builtin.service:
-    name: cri-o
+    name: crio
     enabled: yes
+
 #cat <<EOF | sudo tee /etc/modules-load.d/crio.conf
 #overlay
 #br_netfilter
