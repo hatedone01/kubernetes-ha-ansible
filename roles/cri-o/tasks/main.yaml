@@ -1,4 +1,9 @@
 ---
+- name: Install gnupg2
+  ansible.builtin.apt:
+    name: gnupg2
+    state: present
+
 - name: Create /etc/modules-load.d/crio.conf
   ansible.builtin.copy: 
     dest: /etc/modules-load.d/crio.conf

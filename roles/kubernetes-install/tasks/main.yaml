@@ -38,7 +38,7 @@
     - apt-transport-https
     - ca-certificates
 
-- name: add Kubernetes apt-key for APT repository
+- name: add Kubernetes apt-key for APT key
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
@@ -55,6 +55,7 @@
     state: present
     update_cache: yes
   with_items:
+    - gnupg2
     - kubelet 
     - kubeadm 
     - kubectl

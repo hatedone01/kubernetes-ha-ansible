@@ -2,8 +2,7 @@
 #  hosts: haproxy
 #  become: yes
 #  vars:
-#    - VIP: 10.200.50.200
-#    - KEEP_PASSWD: Password1!
+#    - VIP: 10.200.110.200
 #  roles:
 #    - keepalive
 #    - haproxy
@@ -15,14 +14,15 @@
     - OS: Debian_11
     - CRIO_VERSION: 1.23
   roles:
-#    - containerd
+    - cri-o
     - kubernetes-install
 
 - name: Kubernetes master boot
-  hosts: kube_master
+  hosts: kube_master, !kube_master[0]
   become: yes
   vars:
     - VIP: 10.200.110.200
     - POD_CIDER: 172.16.0.0/16
+    - KUBE_DNS: kubernetes-dns.exampel.local 
   roles:
     - kubernetes-master

@@ -1,8 +1,39 @@
 ---
+- name: Reboot
+  ansible.builtin.reboot:
+
 - name: "run on that_one_host host"
-  command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
+  command: sudo kubeadm init --control-plane-endpoint "{{ KUBE_DNS }}:6443" --upload-certs
   delegate_to: "{{ groups.kube_master[0] }}" 
   run_once: true
+
+- name: Create config to kubectl
+  command: "{{ item }} chdir=/src/package/"
+  with_items:   
+    - mkdir -p $HOME/.kube
+    - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    - sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  delegate_to: "{{ groups.kube_master[0] }}" 
+
+- name: Get join command to control plane
+  copy: src=./files/kubeadm.sh dest=/tmp/kubeadm.sh mode=0777
+  delegate_to: "{{ groups.kube_master[0] }}" 
+
+- name: Execut /tmp/kubeadm.sh
+  command: ./tmp/kubeadm.sh
+  register: kube_join_controller
+  delegate_to: "{{ groups.kube_master[0] }}" 
+
+- name: Print kubeadm 
+  debug: 
+    var: kube_join_controller.stdout_lines
+
+- name: Join control plane nodes
+  command: "{{ kube_join_controller.stdout_lines }}"
+
+- name: Join control plane nodes
+  command: "{{ kube_join_controller.stdout_lines }}"
+  delegate_to: "{{ groups.kube_worker }}"
 
 #- name: "run on that_one_host host"
 #  command: sudo kubeadm init --pod-network-cidr="{{ POD_CIDER }}" --apiserver-advertise-address="{{ VIP }}"
