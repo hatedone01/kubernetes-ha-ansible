@@ -1,11 +1,11 @@
 [haproxy]
-haproxy01 
-haproxy02
+silk-haproxy01 
+silk-haproxy02
 
 [kube_master]
-silk-kube-master01 ipv4=10.200.80.21
-silk-kube-master02 ipv4=10.200.80.22
-silk-kube-master03 ipv4=10.200.80.23
+silk-kube-master01 ipv4=10.200.110.11
+silk-kube-master02 ipv4=10.200.110.12
+silk-kube-master03 ipv4=10.200.110.13
 
 [kube_worker]
 silk-kube-worker01

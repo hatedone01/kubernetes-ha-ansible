@@ -72,3 +72,10 @@
     mode: '0777'
   delegate_to: "{{ item }}"
   with_items: "{{ groups['kube_worker'] }}"
+
+
+#- name: Join worker
+#  command: sh /tmp/kubeadm-join-worker.sh
+#  delegate_to: "{{ item }}"
+#  with_items: "{{ groups['kube_worker'] }}"
+#  ignore_errors: true
