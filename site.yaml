@@ -21,19 +21,19 @@
   hosts: kube_master
   become: yes
   vars:
-    - KUBE_DNS: kubernetes.example.local
+    - KUBE_DNS: silk-kube-master.global.local
     - VIP: 10.200.110.200
     - POD_CIDER: 172.16.0.0/16
   roles:
     - kubernetes-controller
 
-- name: Kubernetes worker 
+- name: Kubernetes controller join
   hosts: kube_master, !kube_master[0]
   become: yes
   roles:
-    - kubernetes-worker
+    - kubernetes-controller-join
 
-- name: Kubernetes worker 
+- name: Kubernetes worker
   hosts: kube_worker
   become: yes
   roles:
