@@ -1,8 +1,9 @@
 - name: Haproxy
   hosts: haproxy
   become: yes
-  vars:
-    - VIP: 10.200.110.200
+  include_vras: vars.yaml
+#  vars:
+#    - VIP: 10.200.110.200
   roles:
     - keepalive
     - haproxy
@@ -10,9 +11,10 @@
 - name: Kubernetes master
   hosts: kube_master, kube_worker
   become: yes
-  vars:
-    - OS: Debian_11
-    - CRIO_VERSION: 1.23
+  include_vars: vars.yaml
+#  vars:
+#    - OS: Debian_11
+#    - CRIO_VERSION: 1.23
   roles:
     - cri-o
     - kubernetes-install
@@ -20,10 +22,11 @@
 - name: Kubernetes boot
   hosts: kube_master
   become: yes
-  vars:
-    - KUBE_DNS: silk-kube-master.global.local
-    - VIP: 10.200.110.200
-    - POD_CIDER: 172.16.0.0/16
+  include_vars: vars.yaml
+#  vars:
+#    - KUBE_DNS: silk-kube-master.global.local
+#    - VIP: 10.200.110.200
+#    - POD_CIDER: 172.16.0.0/16
   roles:
     - kubernetes-controller
 
