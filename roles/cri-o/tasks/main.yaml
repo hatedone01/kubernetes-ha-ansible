@@ -1,4 +1,6 @@
 ---
+- include_vars: ../../vars.yaml
+
 - name: Install gnupg2
   ansible.builtin.apt:
     name: gnupg2
@@ -29,21 +31,21 @@
 - name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-    content: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{OS}}/ /
+    content: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{vars.OS}}/ /
 
-- name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{OS}}.list
+- name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{vars.OS}}.list
   ansible.builtin.copy:
-    dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{OS}}.list
-    content: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{CRIO_VERSION}}/{{OS}}/ /
+    dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{vars,OS}}.list
+    content: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{vars.CRIO_VERSION}}/{{vars.OS}}/ /
 
 - name: CRI-O add pgp1
   ansible.builtin.apt_key:
-    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{CRIO_VERSION}}/{{OS}}/Release.key
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{vars.CRIO_VERSION}}/{{vars.OS}}/Release.key
     state: present
 
 - name: CRI-O add pgp2
   ansible.builtin.apt_key:
-    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{OS}}/Release.key
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{vars.OS}}/Release.key
     state: present
 
 - name: Update apt cache
