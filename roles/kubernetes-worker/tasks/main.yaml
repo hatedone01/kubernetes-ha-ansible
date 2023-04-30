@@ -1,0 +1,3 @@
+---
+- name: Join kubernetes worker to cluster
+  command: sh /tmp/kubeadm-join-worker.sh

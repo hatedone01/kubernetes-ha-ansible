@@ -1,14 +1,14 @@
-#- name: Haproxy
-#  hosts: haproxy
-#  become: yes
-#  vars:
-#    - VIP: 10.200.110.200
-#  roles:
-#    - keepalive
-#    - haproxy
+- name: Haproxy
+  hosts: haproxy
+  become: yes
+  vars:
+    - VIP: 10.200.110.200
+  roles:
+    - keepalive
+    - haproxy
 
-- name: Kubernetes master 
-  hosts: kube_master
+- name: Kubernetes master
+  hosts: kube_master, kube_worker
   become: yes
   vars:
     - OS: Debian_11
@@ -17,12 +17,24 @@
     - cri-o
     - kubernetes-install
 
-- name: Kubernetes master boot
-  hosts: kube_master, !kube_master[0]
+- name: Kubernetes boot
+  hosts: kube_master
   become: yes
   vars:
+    - KUBE_DNS: kubernetes.example.local
     - VIP: 10.200.110.200
     - POD_CIDER: 172.16.0.0/16
-    - KUBE_DNS: kubernetes-dns.exampel.local 
   roles:
-    - kubernetes-master
+    - kubernetes-controller
+
+- name: Kubernetes worker 
+  hosts: kube_master, !kube_master[0]
+  become: yes
+  roles:
+    - kubernetes-worker
+
+- name: Kubernetes worker 
+  hosts: kube_worker
+  become: yes
+  roles:
+    - kubernetes-worker

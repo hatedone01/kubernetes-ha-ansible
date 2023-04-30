@@ -1,3 +1,0 @@
----
-- name: Join control plane nodes
-  command: "{{ kube_join_controller.stdout_lines }}"
