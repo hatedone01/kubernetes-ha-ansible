@@ -1,8 +1,8 @@
 ---
-- name: Create 99-kubernetes-cri.conf
-  file:
-    path: /etc/sysctl.d/99-kubernetes-cri.conf
-    state: touch
+#- name: Create 99-kubernetes-cri.conf
+#  file:
+#    path: /etc/sysctl.d/99-kubernetes-cri.conf
+#    state: touch
 
 - name: add line to 99-kubernetes-cri.conf
   ansible.builtin.lineinfile:
@@ -19,8 +19,7 @@
   command: sysctl --system
 
 - name: Disable SWAP (1/2)
-  shell: |
-    swapoff -a
+  shell: swapoff -a
 
 - name: Disable SWAP (2/2)
   replace:
@@ -60,7 +59,7 @@
     - kubeadm 
     - kubectl
 
-- name: Hold kubernetes
+- name: Hold kubernetes packes
   dpkg_selections:
     name: "{{ item }}"
     selection: hold

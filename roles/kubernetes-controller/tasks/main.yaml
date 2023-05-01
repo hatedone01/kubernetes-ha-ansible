@@ -4,12 +4,12 @@
 
 - include_vars: ../../vars.yaml
 
-- name: Bootstrep
+- name: Bootstrep kubernetes
   command:  sudo kubeadm init --control-plane-endpoint "{{ vars.KUBE_DNS }}:6443" --upload-certs --pod-network-cidr="{{vars.POD_CIDER}}"
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
-- name: Create a directory if it does not exist
+- name: Create dir /root/.kube
   ansible.builtin.file:
     path: /root/.kube
     state: directory
@@ -17,29 +17,27 @@
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
-- name: Create config to kubectl
-  command: "{{ item }}"
-  with_items:
-    - sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+- name: Copy admin.conf to .kube
+  command: sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
-- name: Get join command to control plane
+- name: Copy kubernetes_controller.sh file to first master 
   copy: src=./files/kubeadm_controller.sh dest=/root/kubeadm_controller.sh mode=0777
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
-- name: Execut /tmp/kubeadm_controller.sh
+- name: Execut kubeadm controller
   command: sh /root/kubeadm_controller.sh
   register: kube_join_controller
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
-- name: Print kubeadm
+- name: Print kubeadm controller join command
   debug:
     var: kube_join_controller.stdout_lines
 
-- name: Write kubeadm controller join command to file
+- name: Write kube_join_controller output to /root/kube-join-command.sh 
   copy:
     content: "{{ kube_join_controller.stdout }}"
     dest: /root/kubeadm-join-command.sh
@@ -50,12 +48,12 @@
   when: inventory_hostname != groups['kube_master'][0]
   with_items: "{{ groups['kube_master'] }}"
 
-- name: Get join command to worker
+- name: Copy kubernetes_worker.sh to first master node  
   copy: src=./files/kubeadm_worker.sh dest=/root/kubeadm_worker.sh mode=0777
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
-- name: Execut /tmp/kubeadm_worker.sh
+- name: Execut /root/kubeadm_worker.sh
   command: sh /root/kubeadm_worker.sh
   register: kube_join_worker
   delegate_to: "{{ groups.kube_master[0] }}"
@@ -65,7 +63,7 @@
   debug:
     var: kube_join_worker.stdout_lines
 
-- name: Write kubeadm worker join command
+- name: Write kubeadm worker join command to /tmp/kubeadm-join-worker.sh on all worker
   copy:
     content: "{{ kube_join_worker.stdout }}"
     dest: /tmp/kubeadm-join-worker.sh

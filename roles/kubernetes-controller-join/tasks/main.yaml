@@ -4,8 +4,3 @@
 
 - name: Join control plane nodes
   command: sh /root/kubeadm-join-command.sh
-
-#  delegate_to: "{{ item }}"
-#  when: inventory_hostname != groups['kube_master'][0]
-#  with_items: "{{ groups['kube_master'] }}"
-#  ignore_errors: true
