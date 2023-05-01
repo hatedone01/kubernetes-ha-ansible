@@ -5,7 +5,7 @@
     - keepalive
     - haproxy
 
-- name: Kubernetes master
+- name: Kubernetes packet 
   hosts: kube_master, kube_worker
   become: yes
   roles:
