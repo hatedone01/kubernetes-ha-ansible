@@ -1,6 +1,3 @@
 ---
-- name: Reboot
-  ansible.builtin.reboot:
-
 - name: Join control plane nodes
   command: sh /root/kubeadm-join-command.sh

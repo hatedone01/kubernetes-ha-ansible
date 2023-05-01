@@ -1,9 +1,4 @@
 ---
-#- name: Create 99-kubernetes-cri.conf
-#  file:
-#    path: /etc/sysctl.d/99-kubernetes-cri.conf
-#    state: touch
-
 - name: add line to 99-kubernetes-cri.conf
   ansible.builtin.lineinfile:
     path: /etc/sysctl.d/99-kubernetes-cri.conf
