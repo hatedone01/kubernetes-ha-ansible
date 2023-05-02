@@ -11,11 +11,6 @@
     name: keepalived
     state: present
     update_cache: yes
-      
-- name: Enable Keekalived
-  service:
-    name: keepalived
-    enabled: yes
 
 - name: Config Keekalived
   template:
@@ -23,6 +18,11 @@
     dest: /etc/keepalived/keepalived.conf
     owner: root
     group: root
+
+- name: Enable Keekalived
+  service:
+    name: keepalived
+    enabled: yes
 
 - name: Restart Keekalived
   service:

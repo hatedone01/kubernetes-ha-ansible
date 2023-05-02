@@ -1,7 +1,7 @@
 ---
 - include_vars: ../../vars.yaml
 
-- name: Install gnupg2
+- name: Install Packet
   ansible.builtin.apt:
     name: "{{item}}"
     state: present
@@ -43,7 +43,7 @@
 
 - name: CRI-O add pgp
   ansible.builtin.apt_key:
-    url: "{{ items }}"
+    url: "{{ item }}"
     state: present
   with_items:
     - https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{vars.CRIO_VERSION}}/{{vars.OS}}/Release.key
