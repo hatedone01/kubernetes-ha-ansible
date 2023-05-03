@@ -1,6 +1,6 @@
 # Kubernetes-HA-Ansible
 
-This is an Ansible playbook that sets up HAProxy, Keepalived, CRI-O, and Kubernetes all at once. Before using this playbook, you must [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html "Install Ansible"), and define the number of hosts you want to use. In this example, two HAProxy servers, three controller nodes, and three worker nodes are used, all running Debian 11. If you use vmware vcenter you can check out terraform [script](https://github.com/hatedone01/terraform-kubernetes.git "script") to automate installation of VM
+This is an Ansible playbook that sets up HAProxy, Keepalived, CRI-O, and Kubernetes all at once. Before using this playbook, you must [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html "Install Ansible"), and define the number of hosts you want to use. In this example, two HAProxy servers, three controller nodes, and three worker nodes are used, all running Debian 11. If you use vmware vcenter you can check out terraform [script](https://github.com/hatedone01/terraform-kubernetes.git "script") to automate installation of VM. There is no CNI setup
 
 ## 1. Download the repository:
 ```

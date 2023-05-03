@@ -2,7 +2,7 @@
 - include_vars: ../../vars.yaml
 
 - name: Bootstrep kubernetes
-  command:  sudo kubeadm init --control-plane-endpoint "{{ vars.KUBE_DNS }}:6443" --upload-certs --pod-network-cidr="{{vars.POD_CIDER}}"
+  command:  sudo kubeadm init --control-plane-endpoint "{{ vars.KUBE_DNS }}:6443" --upload-certs
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
