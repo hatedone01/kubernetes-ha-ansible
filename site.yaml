@@ -10,7 +10,7 @@
   hosts: kube_master, kube_worker
   become: yes
   roles:
-    - basik
+    - basic
     - cri-o
     - kubernetes-install
 
