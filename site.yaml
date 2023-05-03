@@ -2,6 +2,7 @@
   hosts: haproxy
   become: yes
   roles:
+    - basic
     - keepalive
     - haproxy
 
@@ -9,6 +10,7 @@
   hosts: kube_master, kube_worker
   become: yes
   roles:
+    - basik
     - cri-o
     - kubernetes-install
 
