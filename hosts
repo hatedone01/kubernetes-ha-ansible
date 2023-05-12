@@ -1,6 +1,6 @@
 [haproxy]
-silk-haproxy01 
-silk-haproxy02
+silk-haproxy01 ipv4=10.200.110.221
+silk-haproxy02 ipv4=10.200.110.222
 
 [kube_master]
 #Rember to write the ip address of the master nodes
