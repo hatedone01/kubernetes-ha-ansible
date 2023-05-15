@@ -3,3 +3,4 @@ OS: Debian_11
 CRIO_VERSION: 1.23
 KUBE_DNS: silk-kube-master.global.local
 VIP: 10.200.110.200
+CNI: cri-o

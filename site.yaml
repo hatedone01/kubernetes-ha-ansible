@@ -1,3 +1,5 @@
+- include_vars: vars.yaml
+
 - name: Haproxy
   hosts: haproxy
   become: yes
@@ -12,6 +14,9 @@
   roles:
     - basic
     - cri-o
+      when: CNI == "cri-o"
+    - containerd
+      when: CNI == "containerd"
     - kubernetes-install
 
 - name: Kubernetes boot
