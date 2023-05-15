@@ -17,3 +17,10 @@ Then run the playbook:
 ansible-playbook -i hosts site.yaml --ask-become-pass
 ```
 ## 4. Kubectl is setup on the first controller node 
+
+## 5. Calico deployment
+I hav test it with Calico CNI
+```
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml -O
+kubectl apply -f calico.yaml
+```
