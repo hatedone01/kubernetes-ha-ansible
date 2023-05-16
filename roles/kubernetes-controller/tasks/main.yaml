@@ -61,3 +61,13 @@
     mode: '0777'
   delegate_to: "{{ item }}"
   with_items: "{{ groups['kube_worker'] }}"
+
+- name: Remove kubeadm files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /root/kubeadm_controller.sh
+    - /root/kubeadm-join-command.sh
+    - /root/kubeadm_worker.sh
+  delegate_to: "{{ groups.kube_master[0] }}"
