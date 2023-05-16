@@ -7,29 +7,35 @@
     - curl
     - gnupg
     - lsb-release
+  when: CNI == "containerd"
 
 - name: Add Docker GPG apt Key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
+  when: CNI == "containerd"
 
 - name: Add Docker Repository
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu focal stable
     state: present
+  when: CNI == "containerd"
 
 - name: Update repository cache
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  when: CNI == "containerd"
 
 - name: Install containerd.io
   apt:
     name: containerd.io
     state: present
+  when: CNI == "containerd"
 
 - name: Create containerd.conf 
   file:
     path: /etc/containerd 
     state: directory
+  when: CNI == "containerd"
 
 - name: Copy file with owner and permissions
   ansible.builtin.copy:
@@ -38,11 +44,13 @@
     owner: root
     group: root
     mode: '0644'
+  when: CNI == "containerd"
 
 - name: Create containerd.conf 
   file:
     path: /etc/modules-load.d/containerd.conf
     state: touch
+  when: CNI == "containerd"
 
 - name: add line to containerd.conf
   ansible.builtin.lineinfile:
@@ -52,6 +60,7 @@
   with_items:
     - overlay
     - br_netfilter
+  when: CNI == "containerd"
 
 - name: modprod
   modprobe:
@@ -59,13 +68,16 @@
   with_items: 
     - overlay
     - br_netfilter
+  when: CNI == "containerd"
 
 - name: Enable containerd
   service:
     name: containerd
     enabled: yes
+  when: CNI == "containerd"
 
 - name: Restart containerd
   service:
     name: containerd
     state: restarted
+  when: CNI == "containerd"
