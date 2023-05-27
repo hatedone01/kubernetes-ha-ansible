@@ -2,8 +2,8 @@
 - include_vars: ../../vars.yaml
 
 - name: Install Packet
-  ansible.builtin.apt:
-    name: "{{item}}"
+  apt:
+    name: "{{ item }}"
     state: present
   with_items:
     - curl
@@ -11,20 +11,24 @@
   when: CNI == "cri-o"
 
 - name: Create /etc/modules-load.d/crio.conf
-  ansible.builtin.copy: 
-    dest: /etc/modules-load.d/crio.conf
-    content: |
-      overlay
-      br_netfilter
+  lineinfile:
+    path: /etc/modules-load.d/crio.conf
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - overlay
+    - br_netfilter
   when: CNI == "cri-o"
 
 - name: Create /etc/sysctl.d/99-kubernetes-cri.conf
-  ansible.builtin.copy: 
-    dest: /etc/sysctl.d/99-kubernetes-cri.conf
-    content: |
-      net.bridge.bridge-nf-call-iptables  = 1
-      net.ipv4.ip_forward                 = 1
-      net.bridge.bridge-nf-call-ip6tables = 1
+  lineinfile:
+    path: /etc/sysctl.d/99-kubernetes-cri.conf
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - net.bridge.bridge-nf-call-iptables  = 1
+    - net.ipv4.ip_forward                 = 1
+    - net.bridge.bridge-nf-call-ip6tables = 1
   when: CNI == "cri-o"
 
 - name: modprode
@@ -36,19 +40,19 @@
   when: CNI == "cri-o"
 
 - name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-  ansible.builtin.copy:
+  copy:
     dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
     content: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{vars.OS}}/ /
   when: CNI == "cri-o"
 
 - name: Create /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{vars.OS}}.list
-  ansible.builtin.copy:
+  copy:
     dest: /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:{{vars.OS}}.list
     content: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{vars.CRIO_VERSION}}/{{vars.OS}}/ /
   when: CNI == "cri-o"
 
 - name: CRI-O add pgp
-  ansible.builtin.apt_key:
+  apt_key:
     url: "{{ item }}"
     state: present
   with_items:
@@ -57,12 +61,12 @@
   when: CNI == "cri-o"
 
 - name: Update apt cache
-  ansible.builtin.apt:
+  apt:
     update_cache: yes
   when: CNI == "cri-o"
 
 - name: Install CRI-O
-  ansible.builtin.apt:
+  apt:
     name: "{{item}}"
     state: present
   with_items:
@@ -72,14 +76,14 @@
   when: CNI == "cri-o"
 
 - name: Start cri-o
-  ansible.builtin.service:
+  service:
     name: crio
     daemon_reload: true
     state: started
   when: CNI == "cri-o"
 
 - name: Enable cri-o
-  ansible.builtin.service:
+  service:
     name: crio
     enabled: yes
   when: CNI == "cri-o"

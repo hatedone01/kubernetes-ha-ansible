@@ -22,7 +22,10 @@
   when: CNI == "containerd"
 
 - name: Update repository cache
-  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  apt: 
+    update_cache: yes 
+    force_apt_get: yes 
+    cache_valid_time: 3600
   when: CNI == "containerd"
 
 - name: Install containerd.io
@@ -37,8 +40,8 @@
     state: directory
   when: CNI == "containerd"
 
-- name: Copy file with owner and permissions
-  ansible.builtin.copy:
+- name: Copy config.toml 
+  copy:
     src: files/config.toml
     dest: /etc/containerd/config.toml
     owner: root
@@ -53,7 +56,7 @@
   when: CNI == "containerd"
 
 - name: add line to containerd.conf
-  ansible.builtin.lineinfile:
+  lineinfile:
     path: /etc/modules-load.d/containerd.conf
     line: "{{ item }}"
     create: yes

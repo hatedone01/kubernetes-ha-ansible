@@ -3,7 +3,7 @@
   command: sh /root/kubeadm-join-command.sh
 
 - name: Remove kubeadm files
-  ansible.builtin.file:
+  file:
     path: "{{ item }}"
     state: absent
   with_items:

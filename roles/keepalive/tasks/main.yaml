@@ -2,7 +2,7 @@
 - include_vars: ../../vars.yaml
 
 - name: Create pass 
-  ansible.builtin.set_fact:
+  set_fact:
     keep_pass: "{{ lookup('ansible.builtin.password', '/tmp/passwordfile chars=ascii_letters') }}"
   run_once: true
 

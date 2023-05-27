@@ -7,7 +7,7 @@
   run_once: true
 
 - name: Create dir /root/.kube
-  ansible.builtin.file:
+  file:
     path: /root/.kube
     state: directory
     mode: '0755'
@@ -20,7 +20,10 @@
   run_once: true
 
 - name: Copy kubernetes_controller.sh file to first master 
-  copy: src=./files/kubeadm_controller.sh dest=/root/kubeadm_controller.sh mode=0777
+  copy: 
+    src: ./files/kubeadm_controller.sh 
+    dest: /root/kubeadm_controller.sh 
+    mode: '0777'
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
@@ -42,7 +45,10 @@
   with_items: "{{ groups['kube_master'] }}"
 
 - name: Copy kubernetes_worker.sh to first master node  
-  copy: src=./files/kubeadm_worker.sh dest=/root/kubeadm_worker.sh mode=0777
+  copy: 
+    src: ./files/kubeadm_worker.sh 
+    dest: /root/kubeadm_worker.sh 
+    mode: '0777'
   delegate_to: "{{ groups.kube_master[0] }}"
   run_once: true
 
@@ -63,7 +69,7 @@
   with_items: "{{ groups['kube_worker'] }}"
 
 - name: Remove kubeadm files
-  ansible.builtin.file:
+  file:
     path: "{{ item }}"
     state: absent
   with_items:

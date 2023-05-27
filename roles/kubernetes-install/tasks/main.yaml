@@ -1,6 +1,6 @@
 ---
 - name: add line to 99-kubernetes-cri.conf
-  ansible.builtin.lineinfile:
+  lineinfile:
     path: /etc/sysctl.d/99-kubernetes-cri.conf
     line: "{{ item }}"
     create: yes
@@ -32,7 +32,7 @@
     - apt-transport-https
     - ca-certificates
 
-- name: add Kubernetes apt-key for APT key
+- name: add Kubernetes APT for APT key
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
